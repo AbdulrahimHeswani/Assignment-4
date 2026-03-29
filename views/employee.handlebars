@@ -1,0 +1,38 @@
+<h1>Employee Details</h1>
+
+<h2>{{employee.name}}</h2>
+<p>Phone: {{employee.phone}}</p>
+<p><a href="/employee/{{employee._id}}/edit">Edit Details</a></p>
+
+<h3>Shifts </h3>
+
+
+{{#if shifts.length}}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {{#each shifts}}
+            <tr>
+                <td>{{this.date}}</td>
+                <td class="{{#if this.beforeNoon}}highlight-yellow{{/if}}">{{this.startTime}}</td>
+                <td>{{this.endTime}}</td>
+            </tr>
+        {{/each}}
+
+        </tbody>
+    </table>
+{{else}}
+    <p>No shifts assigned.</p>
+{{/if}}
+
+
+<div class="back-link">
+    <a href="/">Back to Employee List</a>
+</div>
