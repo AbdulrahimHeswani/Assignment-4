@@ -1,0 +1,26 @@
+Collections that will change:
+- employees: remove employeeId field, use _id only
+- shifts: remove shiftId field, add employees array with ObjectIds, use _id only
+- assignments: will be deleted entirely
+
+Persistence functions to modify or remove:
+- findEmployee: change query from {employeeId} to {_id: ObjectId}
+- findShift: change query from {shiftId} to {_id: ObjectId}
+- getAssignmentsByEmployee: remove entirely, replaced by searching shifts.employees array
+- addEmployee: remove employeeId generation
+- updateEmployee: use ObjectId instead of employeeId string
+- getMaxEmployeeIdNumber: remove entirely
+- addAssignment: remove entirely
+
+Business logic changes:
+- generateEmployeeId: remove entirely
+- getEmployeeSchedule: rewrite to query shifts where employees array contains the employee ObjectId
+
+How embedded arrays affect update operations:
+- To add an employee to a shift, use $push on the employees array inside the shift document
+- To remove an employee from a shift, use $pull on the employees array
+
+Risks and complications:
+- All _id values must be converted from strings to ObjectId objects before querying
+- Handlebars templates use employeeId in URLs, these must be changed to use _id
+- The transformation script must run once and only once; running it again could duplicate data
